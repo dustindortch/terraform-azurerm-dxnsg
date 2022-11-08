@@ -5,8 +5,15 @@ repos:
       - id: check-added-large-files
       - id: check-yaml
 
-  - repo: https://github.com/terraform-docs/terraform-docs
-    rev: "v0.16.0"
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: "v1.31.0"
     hooks:
-      - id: terraform-docs-go
-        args: ["markdown", "table", "--output-file", "README.md", "--output-mode", "replace", "."]
+      - id: terraform_fmt
+      - id: terraform_docs
+      - id: terraform_validate
+
+  # - repo: https://github.com/terraform-docs/terraform-docs
+  #   rev: "v0.16.0"
+  #   hooks:
+  #     - id: terraform-docs-go
+  #       args: ["markdown", "table", "--output-file", "README.md", "--output-mode", "replace", "."]
