@@ -1,3 +1,4 @@
+---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: "v4.0.1"
@@ -11,9 +12,3 @@ repos:
       - id: terraform_fmt
       - id: terraform_docs
       - id: terraform_validate
-
-  # - repo: https://github.com/terraform-docs/terraform-docs
-  #   rev: "v0.16.0"
-  #   hooks:
-  #     - id: terraform-docs-go
-  #       args: ["markdown", "table", "--output-file", "README.md", "--output-mode", "replace", "."]
