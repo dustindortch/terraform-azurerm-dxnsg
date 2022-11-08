@@ -33,7 +33,7 @@ variable "rules" {
     protocol                                   = optional(string, "*")
     source_address_prefixes                    = optional(list(string), ["*"])
     source_application_security_group_ids      = optional(list(string), ["*"])
-    source_port_ranges                  = optional(list(string), ["*"])
+    source_port_ranges                         = optional(list(string), ["*"])
   }))
 
   description = "Set of rules to include in network security group."
