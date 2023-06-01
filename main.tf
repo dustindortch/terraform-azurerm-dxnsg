@@ -34,8 +34,8 @@ resource "azurerm_network_security_rule" "rules" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "assoc" {
-  for_each = toset(var.subnet_ids)
+  for_each = var.subnets
 
-  subnet_id                 = each.key
+  subnet_id                 = each.value
   network_security_group_id = azurerm_network_security_group.nsg.id
 }

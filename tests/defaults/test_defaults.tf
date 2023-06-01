@@ -47,6 +47,10 @@ module "vnet" {
   }
 }
 
+locals {
+  nsg_subnet_ids = { for k, v in module.vnet.subnets : k => v.id }
+}
+
 module "main" {
   source = "../.."
 
@@ -56,16 +60,16 @@ module "main" {
 
   rules = {
     "DenySSH" = {
-      access                       = "Deny"
-      destination_address_prefixes = ["*"]
-      destination_port_ranges      = ["22"]
-      direction                    = "Inbound"
-      priority                     = 100
-      protocol                     = "Tcp"
+      access                     = "Deny"
+      destination_address_prefix = "*"
+      destination_port_ranges    = ["22"]
+      direction                  = "Inbound"
+      priority                   = 100
+      protocol                   = "Tcp"
     }
   }
 
-  # subnet_ids = module.vnet.subnets.*.id
+  subnets = local.nsg_subnet_ids # module.vnet.subnets.*.id
 }
 
 resource "azurerm_resource_group" "rg" {

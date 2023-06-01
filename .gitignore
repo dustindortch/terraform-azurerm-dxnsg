@@ -8,6 +8,9 @@
 *.tfstate
 *.tfstate.*
 
+# terraform.tf file
+terraform.tf
+
 # Crash log files
 crash.log
 

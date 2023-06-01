@@ -45,8 +45,8 @@ variable "rules" {
   default = {}
 }
 
-variable "subnet_ids" {
-  type        = list(string)
-  default     = []
-  description = "Subnet IDs to attach network security group."
+variable "subnets" {
+  type        = map(string)
+  default     = {}
+  description = "Subnet and ids to attach network security group."
 }
