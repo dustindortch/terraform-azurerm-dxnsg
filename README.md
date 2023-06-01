@@ -4,6 +4,44 @@ Module to create a network security group in Microsoft Azure.
 This module implements a hierarchical structure for network security group rules and is designed to pair with [terraform-azurerm-dxvnet](https://github.com/dustindortch/terraform-azurerm-dxvnet), which leads to fewer errors or misassociations of one list to another list incorrectly.
 
 Associating network security groups is optionally supported within the module or can be facilitated separately.
+
+## Usage
+
+In order to use this with the [terraform-azurerm-dxvnet](https://github.com/dustindortch/terraform-azurerm-dxvnet) module, I add a list of subnets inside of a map of the NSGs when I create a variable in the root module:
+
+```terraform
+variable "network_security_groups" {
+  default = {
+    "nsg-subnet-frontend" = {
+      rules = {
+        "AllowHttpsInbound" = {
+          priority                    = 100
+          direction                   = "Inbound"
+          description                 = ""
+          access                      = "Allow"
+          protocol                    = "Tcp"
+          source_address_prefix       = "VirtualNetwork"
+          source_port_range           = "*"
+          destination_address_prefix  = "VirtualNetwork"
+          destination_port_range      = "443"
+        }
+      }
+      subnets = ["frontend"]
+    }
+  }
+}
+```
+
+This allows me to assign the NSG to any number of subnets.  Since these are just the names of the subnets (the key used in the VNET module), we need to build a new structure grabbing the the subnet IDs:
+
+```terraform
+locals {
+  nsg_subnet_ids = {for k, v in var.network_security_groups : k => {for kk, vv in module.vnet.subnets : kk => vv.id if contains(v.subnets, kk)}}
+}
+```
+
+This map uses the subnet as the key, then has a list of the subnet ID.
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
